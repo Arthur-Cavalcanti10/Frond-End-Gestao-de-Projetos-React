@@ -1,0 +1,488 @@
+.form-wrapper {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding: 15px;
+}
+
+.form-container, 
+.form-container-usuario,
+.form-container-projetos {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.aviso {
+    font-size: 12px;
+    color: #888;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Campos de formulário genéricos */
+.form-login,
+.form-tarefas,
+.form-tarefas-menor,
+.form-projetos,
+.form-projetos-menor,
+.form-usuario,
+textarea,
+select,
+.form-control {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Layout de colunas */
+.duas-colunas {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.coluna {
+    width: 100%;
+}
+
+/* ==================== BOTÕES ==================== */
+.btn {
+    padding: 10px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.btn-danger {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #d32f2f;
+}
+
+.btn-edit {
+    background-color: #4896f0;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #0c78f3;
+    color: white;
+}
+
+.form-login-submit {
+    border: 1px solid #0c78f3;
+    display: flex;
+    width: 35%;
+    margin: 20px auto;
+    padding: 8px;
+    border-radius: 5px;
+    align-items: center;
+    background: #0c78f3;
+    color: #fff;
+    font-weight: 500;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#btn-tarefas-salvar, 
+#btn-projetos-salvar, 
+#btn-usuario-salvar {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#btn-tarefas-salvar:hover, 
+#btn-projetos-salvar:hover, 
+#btn-usuario-salvar:hover {
+    background-color: #45a049;
+}
+
+#btn-tarefas-cancelar, 
+#btn-projetos-cancelar, 
+#btn-usuarios-cancelar {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: white;
+    color: red;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    border: red 1px solid;
+}
+
+#btn-tarefas-cancelar:hover, 
+#btn-projetos-cancelar:hover, 
+#btn-usuarios-cancelar:hover {
+    color: rgb(184, 6, 6);
+    border: 1px solid rgb(184, 6, 6);
+}
+
+.btn-lista {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin-bottom: 15px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: #4CAF50 1px solid;
+    font-weight: 500;
+}
+
+.btn-lista:hover {
+    background-color: #45a049;
+    color: white;
+}
+
+.btn-pdf {
+    background-color: #031f31;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    font-weight: 500;
+    
+}
+
+.btn-pdf:hover{
+    background-color: #052f4a
+}
+
+.container {
+    padding: 20px 15px;
+    margin-top: 20px;
+    background-color: white;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between; /* Alinha o título à esquerda e os botões à direita */
+    align-items: center;
+    width: 100%;
+}
+
+.acoes-header {
+    display: flex;
+    justify-content: flex-end; /* Força o alinhamento à direita */
+    width: auto; /* Largura automática para o container dos botões */
+    gap: 10px;
+}
+
+
+.filtros {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.filtros-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+.btn-filtrar {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+/* Estilo específico para o container dos botões DO FILTRO */
+.filtros .btn-filtrar {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    height: 50%;
+    gap: 10px;
+    margin-top: 25px;
+    border: none; /* Reset opcional */
+    background: transparent; /* Reset opcional */
+
+}
+
+/* Estilos dos botões */
+.filtros .btn-filtrar .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#btn-limpar{
+    background-color: #4896f0 ;
+    color: white;
+}
+
+#btn-limpar:hover{
+    background-color: #0c78f3;
+
+}
+
+
+/* ==================== TABELAS ==================== */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #031F31;
+    font-weight: 600;
+    color: #eee;
+    border: 1px solid #031F31;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+.status-ativo {
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+.status-inativo {
+    color: #f44336;
+    font-weight: 500;
+}
+
+.acoes {
+    display: flex;
+    gap: 5px;
+}
+
+.sem-registros {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+/* ==================== PAGINAÇÃO ==================== */
+.paginacao {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    gap: 15px;
+}
+
+.paginacao-info {
+    color: #666;
+}
+
+/* ==================== COMPONENTES ESPECÍFICOS ==================== */
+.lembrete-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.lembrete-container label {
+    margin: 0;
+}
+
+#tarefas-container, 
+#projetos-container {
+    width: 100%;
+    margin: 20px auto 0;
+    padding: 15px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.projeto-card, .tarefa-card{
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    margin: 0 0 30px 0 ;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.projeto-card:hover, 
+.tarefa-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+
+/* ================== MODAIS ===============================*/
+
+#fotoPreviewModal, #miniaturaUsuario {
+    object-fit: cover;
+
+} 
+
+
+
+/* ==================== MEDIA QUERIES ==================== */
+/* Dispositivos pequenos (telefones, 576px para cima) */
+@media (min-width: 576px) {
+    .login-container {
+        padding: 30px;
+    }
+    
+    .duas-colunas {
+        flex-direction: row;
+        gap: 20px;
+    }
+    
+    .acoes-header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .btn-lista {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin-bottom: 0;
+    }
+}
+
+/* Dispositivos médios (tablets, 768px para cima) */
+@media (min-width: 768px) {
+    #topbar {
+        flex-wrap: nowrap;
+        padding: 0 30px;
+    }
+    
+    .login-box, .logo {
+        margin-bottom: 0;
+    }
+    
+    .dropdown {
+        margin-top: 0;
+    }
+    
+    .form-wrapper {
+        padding: 20px;
+    }
+    
+    .filtros-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container {
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .paginacao {
+        flex-direction: row;
+    }
+}
+
+/* Dispositivos grandes (desktops, 992px para cima) */
+@media (min-width: 992px) {
+    .menu-horizontal a {
+        font-size: 16px;
+    }
+    
+    .filtros-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .card-1, 
+    .card-2, 
+    .card-3, 
+    .card-4 {
+        padding: 30px 20px;
+    }
+
+    #icon {
+        font-size: 3.5em;
+    }
+
+    .card-info h3 {
+        font-size: 2em;
+    }
+}
+
+/* Dispositivos extra grandes (desktops grandes, 1200px para cima) */
+@media (min-width: 1200px) {
+    .form-wrapper {
+        width: 80%;
+    }
+}
