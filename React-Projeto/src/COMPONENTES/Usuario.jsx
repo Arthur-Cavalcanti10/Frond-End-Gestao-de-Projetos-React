@@ -58,10 +58,11 @@ const salvarUsuario = () => console.log(usuarios)
                       <label htmlFor="Nome">
                         Nome:<span className="required">*</span>
                       </label>
+                      {/* recebemos o evento "e", que, ao ser disparado, recebe o valor do campo que o disparou (target.value) */}
                       <input
                         className="form-tarefas"
                         type="text"
-                        value={name} onChange={((e)=> setName(e.target.value))}
+                        value={name} onChange={((e) => setName(e.target.value))}
                         id="nomeUsuarioCadastro"
                         name="nomeusuario"
                         placeholder="Digite o nome"

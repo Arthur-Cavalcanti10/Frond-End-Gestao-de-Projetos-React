@@ -1,8 +1,170 @@
 import '../CSS/Projeto.css'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { useState } from 'react';
 
-function Projeto(){
 
-  return 
+function Projeto() {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <div id="conteudo">
+      <div id="conteudo-geral">
+        <div className="container">
+          {/* Cabeçalho da seção de projetos */}
+          <div className="header">
+            <h2>
+              <i className="fa-solid fa-diagram-project"></i> Lista de Projetos
+            </h2>
+            <div className="acoes-header">
+              <button type="button" className="btn-pdf" id="btn-pdf-projetos">
+                <span className="material-icons">picture_as_pdf</span> Exportar PDF
+              </button>
+              <Button variant="primary" onClick={handleShow}>
+                Launch demo modal
+              </Button>
+
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  {/* Formulário de cadastro/edição de projetos */}
+                  <form className="form-container-projetos">
+                    {/* Campo oculto para ID do projeto (usado em edição) */}
+                    <input type="hidden" id="projetoId" />
+
+                    {/* Botão para lista de projetos */}
+                    <a className="btn btn-lista" href="projetos_filtro.html">
+                      <i className="fa-regular fa-rectangle-list"></i> Lista de Projetos
+                    </a>
+
+                    {/* Campo: Nome do projeto */}
+                    <label htmlFor="nomeProjeto">
+                      Nome do projeto :<span className="required">*</span>
+                    </label>
+                    <input
+                      className="form-projetos"
+                      type="text"
+                      id="nomeProjeto"
+                      name="nomeProjeto"
+                      placeholder="Digite o nome do projeto"
+                      required
+                    />
+
+                    {/* Campo: Descrição do projeto */}
+                    <label htmlFor="descricaoProjeto">Descrição:</label>
+                    <textarea
+                      className="form-projetos"
+                      id="descricaoProjeto"
+                      name="descricaoprojeto"
+                      placeholder="Descreva o projeto"
+                    ></textarea>
+
+                    {/* Linha com duas colunas para datas */}
+                    <div className="duas-colunas">
+                      <div className="coluna">
+                        <label htmlFor="datacriacaoProjeto">
+                          Data de criação:<span className="required">*</span>
+                        </label>
+                        <input
+                          className="form-projetos-menor"
+                          type="date"
+                          id="datacriacaoProjeto"
+                          name="datacriacaoprojeto"
+                          required
+                        />
+                      </div>
+                      <div className="coluna">
+                        <label htmlFor="dataconclusaoProjeto">
+                          Data de conclusão:<span className="required">*</span>
+                        </label>
+                        <input
+                          className="form-projetos-menor"
+                          type="date"
+                          id="dataconclusaoProjeto"
+                          name="dataconclusaoprojeto"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    {/* Linha com duas colunas para status e responsável */}
+                    <div className="duas-colunas">
+                      <div className="coluna">
+                        <label htmlFor="statusProjeto">
+                          Status:<span className="required">*</span>
+                        </label>
+                        <select
+                          className="form-projetos-menor"
+                          id="statusProjeto"
+                          name="status"
+                          required
+                        >
+                          <option value="">Selecione</option>
+                          <option value="pendente">Pendente</option>
+                          <option value="andamento">Em andamento</option>
+                          <option value="concluido">Concluído</option>
+                          <option value="entregue">Entregue</option>
+                        </select>
+                      </div>
+                      <div className="coluna">
+                        <label htmlFor="responsavelProjeto">
+                          Responsável:<span className="required">*</span>
+                        </label>
+                        <input
+                          className="form-projetos-menor"
+                          id="responsavelProjeto"
+                          name="projeto"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </form>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Fechar
+                  </Button>
+                  <Button variant="primary" onClick={handleClose}>
+                    Salvar
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
+          </div>
+
+          {/* Seção de filtros */}
+          <div className="filtros">
+            <div className="filtros-grid">
+              <div className="form-group">
+                <label htmlFor="filtro-nome-projeto">Nome do Projeto</label>
+                <input
+                  type="text"
+                  id="filtro-nome-projeto"
+                  className="form-control"
+                  placeholder="Filtrar pelo projeto"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="filtro-responsavel-projeto">Responsável</label>
+                <input
+                  type="text"
+                  id="filtro-responsavel-projeto"
+                  className="form-control"
+                  placeholder="Responsável"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default Projeto
