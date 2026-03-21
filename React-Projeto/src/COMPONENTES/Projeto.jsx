@@ -1,14 +1,39 @@
 import '../CSS/Projeto.css'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useState } from 'react';
+import { use, useState } from 'react';
+
 
 
 function Projeto() {
+  const alertProjeto = () => alert("Projeto salvo com sucesso!")
   const [show, setShow] = useState(false);
-
+  const [nomeProjeto, setNomeProjeto] = useState("")
+  const [descricaoProjeto, setDescricaoProjeto] = useState("")
+  const [dataCriacaoProjeto, setDataCriacaoProjeto] = useState("")
+  const [dataConclusaoProjeto, setDataConclusaoProjeto] = useState("")
+  const [statusProjeto, setStatusProjeto] = useState("")
+  const [responsavelProjeto,setResponsavelProjeto] = useState("")
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
+  const handleShow = () => {
+    console.log("Modal abrindo...");
+    setShow(true);
+  }
+
+  const projetos = {
+    nome : nomeProjeto,
+    descricao : descricaoProjeto,
+    dataCriacao : dataCriacaoProjeto,
+    dataConclusao : dataConclusaoProjeto,
+    status : statusProjeto,
+    responsavel : responsavelProjeto
+  }
+
+  const salvarProjeto = () => {
+    console.log("Salvando projeto:", projetos);
+    console.log("Valor de nomeProjeto:", nomeProjeto);
+  }
 
   return (
     <div id="conteudo">
@@ -24,12 +49,12 @@ function Projeto() {
                 <span className="material-icons">picture_as_pdf</span> Exportar PDF
               </button>
               <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
+                Novo Projeto
               </Button>
 
               <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Modal heading</Modal.Title>
+                  <Modal.Title>Novo Projeto</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   {/* Formulário de cadastro/edição de projetos */}
@@ -37,10 +62,6 @@ function Projeto() {
                     {/* Campo oculto para ID do projeto (usado em edição) */}
                     <input type="hidden" id="projetoId" />
 
-                    {/* Botão para lista de projetos */}
-                    <a className="btn btn-lista" href="projetos_filtro.html">
-                      <i className="fa-regular fa-rectangle-list"></i> Lista de Projetos
-                    </a>
 
                     {/* Campo: Nome do projeto */}
                     <label htmlFor="nomeProjeto">
@@ -49,6 +70,7 @@ function Projeto() {
                     <input
                       className="form-projetos"
                       type="text"
+                      value={nomeProjeto} onChange={((e) => setNomeProjeto(e.target.value))}
                       id="nomeProjeto"
                       name="nomeProjeto"
                       placeholder="Digite o nome do projeto"
@@ -60,6 +82,7 @@ function Projeto() {
                     <textarea
                       className="form-projetos"
                       id="descricaoProjeto"
+                      value={descricaoProjeto} onChange={((e) => setDescricaoProjeto(e.target.value))}
                       name="descricaoprojeto"
                       placeholder="Descreva o projeto"
                     ></textarea>
@@ -73,6 +96,7 @@ function Projeto() {
                         <input
                           className="form-projetos-menor"
                           type="date"
+                          value={dataCriacaoProjeto} onChange={((e) => setDataCriacaoProjeto(e.target.value))}
                           id="datacriacaoProjeto"
                           name="datacriacaoprojeto"
                           required
@@ -85,6 +109,7 @@ function Projeto() {
                         <input
                           className="form-projetos-menor"
                           type="date"
+                          value={dataConclusaoProjeto} onChange={((e) => setDataConclusaoProjeto(e.target.value))}
                           id="dataconclusaoProjeto"
                           name="dataconclusaoprojeto"
                           required
@@ -101,6 +126,7 @@ function Projeto() {
                         <select
                           className="form-projetos-menor"
                           id="statusProjeto"
+                          value={statusProjeto} onChange={((e) => setStatusProjeto(e.target.value))}
                           name="status"
                           required
                         >
@@ -118,6 +144,7 @@ function Projeto() {
                         <input
                           className="form-projetos-menor"
                           id="responsavelProjeto"
+                          value={responsavelProjeto} onChange={((e) => setResponsavelProjeto(e.target.value))}
                           name="projeto"
                           required
                         />
@@ -128,8 +155,8 @@ function Projeto() {
                 <Modal.Footer>
                   <Button variant="secondary" onClick={handleClose}>
                     Fechar
-                  </Button>
-                  <Button variant="primary" onClick={handleClose}>
+                  </Button> 
+                  <Button variant="primary" onClick={() => {handleClose(), alertProjeto(), salvarProjeto()} }>
                     Salvar
                   </Button>
                 </Modal.Footer>
