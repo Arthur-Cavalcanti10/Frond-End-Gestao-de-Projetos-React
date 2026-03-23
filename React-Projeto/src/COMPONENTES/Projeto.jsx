@@ -165,32 +165,69 @@ function Projeto() {
           </div>
 
           {/* Seção de filtros */}
-          <div className="filtros">
-            <div className="filtros-grid">
-              <div className="form-group">
-                <label htmlFor="filtro-nome-projeto">Nome do Projeto</label>
-                <input
-                  type="text"
-                  id="filtro-nome-projeto"
-                  className="form-control"
-                  placeholder="Filtrar pelo projeto"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="filtro-responsavel-projeto">Responsável</label>
-                <input
-                  type="text"
-                  id="filtro-responsavel-projeto"
-                  className="form-control"
-                  placeholder="Responsável"
-                />
-              </div>
+         <div className="filtros">
+          <div className="filtros-grid">
+            <div className="form-group">
+              <label htmlFor="filtro-nome-projeto">Nome do Projeto</label>
+              <input type="text" id="filtro-nome-projeto" className="form-control" placeholder="Filtrar pelo projeto" />
             </div>
+
+            <div className="form-group">
+              <label htmlFor="filtro-responsavel">Responsável</label>
+              <input type="text" id="filtro-responsavel-projeto" className="form-control" placeholder="Responsável" />
+            </div>
+            
+            <div className="btn-filtrar">
+              <button id="btn-limpar" className="btn">
+                <i className="fas fa-broom"></i> Limpar
+              </button>
+              <button id="btn-filtrar" className="btn btn-primary">
+                <i className="fas fa-filter"></i> Filtrar
+              </button>
+            </div>
+          </div>
+
+          {/* Controles de paginação (superior) */}
+          <div className="paginacao">
+            <div className="paginacao-info">
+              Mostrando <span id="registros-exibidos">0</span> de <span id="registros-totais">0</span> registros
+            </div>
+            <div>
+              <button id="btn-anterior" className="btn" disabled>
+                <i className="fas fa-chevron-left"></i> Anterior
+              </button>
+              <button id="btn-proximo" className="btn" disabled>
+                Próximo <i className="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Container principal dos projetos */}
+        <div id="projetos-container" className="projetos-container">
+          {/* os projetos serão inseridas aqui via JavaScript */}
+          <div id="sem-registros" className="sem-registros" style={{display: "none"}}>
+            Nenhuma tarefa encontrada.
+          </div>
+        </div>
+
+        {/* Controles de paginação (inferior) */}
+        <div className="paginacao">
+          <div className="paginacao-info">
+            Mostrando <span id="registros-exibidos">0</span> de <span id="registros-totais">0</span> registros
+          </div>
+          <div>
+            <button id="btn-anterior" className="btn" disabled>
+              <i className="fas fa-chevron-left"></i> Anterior
+            </button>
+            <button id="btn-proximo" className="btn" disabled>
+              Próximo <i className="fas fa-chevron-right"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
+  </div>
   )
 }
 

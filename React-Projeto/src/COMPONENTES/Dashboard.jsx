@@ -1,6 +1,6 @@
 import '../CSS/Dashboard.css';
 import logo_2 from '../IMG/logo_2.png';
-import {Route,Routes,Link} from "react-router-dom"
+import { Route, Routes, Link } from "react-router-dom"
 import Usuario from './Usuario';
 import Projeto from './Projeto';
 import Tarefa from './Tarefa';
@@ -33,29 +33,29 @@ function Dashboard() {
             </li>
             <li>
               <Link to="/usuario">
-               <span class="material-icons">group</span>  Usuários
+                <span class="material-icons">group</span>  Usuários
               </Link>
             </li>
           </ul>
         </nav>
-         <Dropdown className='dropdown d-flex align-items-center'>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
-      </Dropdown.Toggle>
+        <Dropdown className='dropdown d-flex align-items-center'>
+          <Dropdown.Toggle variant="success" id="dropdown-basic">
+            Arthur
+          </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+          <Dropdown.Menu>
+            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </header>
 
       <Routes>
-        <Route path = "/" element = {<Home/>}/>
-        <Route path = "/usuario" element = {<Usuario/>}/>
-        <Route path = "/tarefa" element = {<Tarefa/>}/>
-        <Route path = "/projeto" element = {<Projeto/>}/>
+        <Route path="/" element={<Home />} />
+        <Route path="/usuario" element={<Usuario />} />
+        <Route path="/tarefa" element={<Tarefa />} />
+        <Route path="/projeto" element={<Projeto />} />
       </Routes>
     </div>
   );
