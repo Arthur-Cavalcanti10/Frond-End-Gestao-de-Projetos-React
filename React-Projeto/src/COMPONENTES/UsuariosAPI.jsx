@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios"
 
 function UsuariosApi() {
   const [usuarios, setUsuarios] = useState([]);
@@ -6,10 +7,9 @@ function UsuariosApi() {
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((data) => {
-        setUsuarios(data);
+    axios.get("http://localhost:8080/usuarios")
+      .then((response) => {
+        setUsuarios(response.data);
         setLoad(false);
       })
       .catch(() => {
@@ -32,7 +32,7 @@ function UsuariosApi() {
       <ul>
         {usuarios.map((usuario) => (
           <li key={usuario.id}>
-            {usuario.name} - {usuario.email}
+            {usuario.nme} - {usuario.email}
           </li>
         ))}
       </ul>

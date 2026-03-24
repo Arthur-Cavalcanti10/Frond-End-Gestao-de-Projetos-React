@@ -1,3 +1,13 @@
+#conteudo {
+  padding: 20px;
+  min-height: calc(100vh - 100px);
+}
+
+#conteudo-geral {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .card-tarefa{
   border : solid;
   background-color: antiquewhite;

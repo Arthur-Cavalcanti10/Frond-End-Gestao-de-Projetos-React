@@ -1,29 +1,67 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
 import "../CSS/Usuario.css"
 
 function Usuario() {
   const [show, setShow] = useState(false);
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState(null);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const alertUsuario = () => alert("Usuário salvo com sucesso!")
-  const [name,setName] = useState("")
+  const [nome,setNome] = useState("")
   const [cpf,setCpf] = useState("")
   const [email,setEmail] = useState("")
   const [dataNascimento,setDataNascimento] = useState("")
   const [status,setStatus] = useState("")
+  const [senha,setSenha] = useState("")
   
-  const usuarios = {
-    name:name,
-    id:Date.now(),
+  const novoUsuario = {
+    nome:nome,
     cpf:cpf,
     email:email,
-    dataNacimento:dataNascimento,
-    status:status
+    dataNascimento:dataNascimento,
+    status:status,  
+    senha:senha
   }
 
-const salvarUsuario = () => console.log(usuarios)
+  useEffect(() => {
+    buscarUsuarios();
+  }, []);
+
+  const buscarUsuarios = () => {
+    setLoading(true);
+    axios.get("http://localhost:8080/usuarios")
+      .then((response) => {
+        setUsuarios(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar:", error);
+        setErro("Erro ao carregar usuários");
+        setLoading(false);
+      });
+  };
+
+  const salvarUsuario = () => {
+    axios.post("http://localhost:8080/usuarios/cadastrar", novoUsuario)
+      .then((response) => {
+        handleClose();
+        setUsuarios([...usuarios, response.data]);
+        setNome("");
+        setCpf("");
+        setEmail("");
+        setSenha("");
+        setDataNascimento("");
+        setStatus("");
+      })
+      .catch((error) => {
+        console.error("Erro ao salvar:", error);
+        alert("Erro ao salvar usuário");
+      });
+  };
 
   return (
     <>
@@ -62,7 +100,7 @@ const salvarUsuario = () => console.log(usuarios)
                       <input
                         className="form-tarefas"
                         type="text"
-                        value={name} onChange={((e) => setName(e.target.value))}
+                        value={nome} onChange={((e) => setNome(e.target.value))}
                         id="nomeUsuarioCadastro"
                         name="nomeusuario"
                         placeholder="Digite o nome"
@@ -96,6 +134,20 @@ const salvarUsuario = () => console.log(usuarios)
                         required
                       />
 
+                      {/* Campo: Senha */}
+                      <label htmlFor="senha">
+                        Senha:<span className="required">*</span>
+                      </label>
+                      <input
+                        className="form-tarefas"
+                        type="password"
+                        value={senha} onChange={((e) => setSenha(e.target.value))}
+                        id="senha"
+                        name="senha"
+                        placeholder="Digite a senha"
+                        required
+                      />
+
                       {/* Campo: Data de nascimento */}
                       <label htmlFor="datanascimento">
                         Data de Nascimento:<span className="required">*</span>
@@ -121,9 +173,8 @@ const salvarUsuario = () => console.log(usuarios)
                         required
                       >
                         <option value="">Selecione o status</option>
-                        <option value="ativo">Ativo</option>
-                        <option value="inativo">Inativo</option>
-                        <option value="pendente">Pendente</option>
+                        <option value="ATIVO">Ativo</option>
+                        <option value="INATIVO">Inativo</option>
                       </select>
                     </form>
                   </Modal.Body>
@@ -131,7 +182,7 @@ const salvarUsuario = () => console.log(usuarios)
                     <Button variant="secondary" onClick={handleClose}>
                       Fechar
                     </Button>
-                    <Button variant="primary" onClick={() => { salvarUsuario(); handleClose();alertUsuario() }}>
+                    <Button variant="primary" onClick={() => { salvarUsuario(); handleClose(); }}>
                       Salvar
                     </Button>
                   </Modal.Footer>
@@ -210,27 +261,31 @@ const salvarUsuario = () => console.log(usuarios)
 
             {/* Tabela de usuários */}
             <div className="table-responsive">
-              <table id="tabela-usuarios">
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>E-mail</th>
-                    <th>Idade</th>
-                    <th>Status</th>
-                    <th>Ações</th>
-                  </tr>
-                </thead>
-                <tbody id="tabela-corpo"></tbody>
-              </table>
-
-              <div
-                id="sem-registros"
-                className="sem-registros"
-                style={{ display: "block" }}
-              >
-                Nenhum usuário encontrado.
-              </div>
+                <>
+                  <table id="tabela-usuarios">
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>E-mail</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tabela-corpo">
+                        {usuarios.map((usuario) => (
+                          <tr key={usuario.id}>
+                            <td>{usuario.nome}</td>
+                            <td>{usuario.cpf}</td>
+                            <td>{usuario.email}</td>
+                            <td>{usuario.status}</td>
+                            <td>-</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </>
+              
             </div>
 
             {/* Controles de paginação (inferior) */}

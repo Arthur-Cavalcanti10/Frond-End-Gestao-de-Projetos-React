@@ -8,7 +8,19 @@ function Home() {
     { id: 4, nome: "Carla", idade: "20" },
   ];
 
-  return null;
+  return (
+    <div id="conteudo">
+      <div id="conteudo-geral">
+        <h2>Bem-vindo!</h2>
+        <p>Lista de usuários:</p>
+        <ul>
+          {usuarios.map((u) => (
+            <li key={u.id}>{u.nome} - {u.idade} anos</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 }
 
 export default Home;
