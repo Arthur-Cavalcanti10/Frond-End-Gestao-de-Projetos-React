@@ -17,6 +17,25 @@ function Usuario() {
   const [dataNascimento,setDataNascimento] = useState("")
   const [status,setStatus] = useState("")
   const [senha,setSenha] = useState("")
+  const [filtroNome, setFiltroNome] = useState("")
+  const [filtroCPF, setFiltroCpf] = useState("")
+  const [filtroEmail, setFiltroEmail] = useState("")
+  const [filtroStatus, setFiltroStatus] = useState("")
+  
+  const usuariosFiltrados = usuarios.filter(usuario => {
+    const nomeMatch = filtroNome === "" || usuario.nome.toLowerCase().includes(filtroNome.toLowerCase()); //se nao tiver filtro, retorna null, se houver,retorna true e procura um nome no array que tenha esse nome e adiciona no usuarios filtrados, 
+    const cpfMatch = filtroCPF === "" || usuario.cpf.includes(filtroCPF);
+    const emailMatch = filtroEmail === "" || usuario.email.toLowerCase().includes(filtroEmail.toLowerCase());
+    const statusMatch = filtroStatus === "" || usuario.status === filtroStatus;
+    return nomeMatch && cpfMatch && emailMatch && statusMatch; //se o return for true, adiciona esse usuario nos usuarios filtrados
+  });
+  
+  const limparFiltro = () => {
+    setFiltroNome("");
+    setFiltroCpf("");
+    setFiltroEmail("");
+    setFiltroStatus("");
+  };
   
   const novoUsuario = {
     nome:nome,
@@ -200,6 +219,8 @@ function Usuario() {
                     id="filtro-nome"
                     className="form-control"
                     placeholder="Filtrar por nome"
+                    value={filtroNome}
+                    onChange={(e) => setFiltroNome(e.target.value)}
                   />
                 </div>
 
@@ -208,6 +229,7 @@ function Usuario() {
                   <input
                     type="text"
                     id="filtro-cpf"
+                    value={filtroCPF} onChange={(e) => setFiltroCpf(e.target.value)}
                     className="form-control"
                     placeholder="Filtrar por CPF"
                   />
@@ -218,6 +240,7 @@ function Usuario() {
                   <input
                     type="text"
                     id="filtro-email"
+                    value={filtroEmail} onChange={(e) => setFiltroEmail(e.target.value)}
                     className="form-control"
                     placeholder="Filtrar por e-mail"
                   />
@@ -225,19 +248,16 @@ function Usuario() {
 
                 <div className="form-group">
                   <label htmlFor="filtro-status">Status</label>
-                  <select id="filtro-status" className="form-control">
+                  <select id="filtro-status" className="form-control" value={filtroStatus} onChange={(e) => setFiltroStatus(e.target.value)}>
                     <option value="">Todos</option>
-                    <option value="ativo">Ativo</option>
-                    <option value="inativo">Inativo</option>
+                    <option value="ATIVO">Ativo</option>
+                    <option value="INATIVO">Inativo</option>
                   </select>
                 </div>
 
                 <div className="btn-filtrar">
-                  <button id="btn-limpar" className="btn">
+                  <button id="btn-limpar" className="btn" onClick={limparFiltro}>
                     <i className="fas fa-broom"></i> Limpar
-                  </button>
-                  <button id="btn-filtrar" className="btn btn-primary">
-                    <i className="fas fa-filter"></i> Filtrar
                   </button>
                 </div>
               </div>
@@ -273,15 +293,29 @@ function Usuario() {
                       </tr>
                     </thead>
                     <tbody id="tabela-corpo">
-                        {usuarios.map((usuario) => (
-                          <tr key={usuario.id}>
-                            <td>{usuario.nome}</td>
-                            <td>{usuario.cpf}</td>
-                            <td>{usuario.email}</td>
-                            <td>{usuario.status}</td>
-                            <td>-</td>
+                        {loading ? (
+                          <tr>
+                            <td colSpan="5" style={{textAlign: 'center'}}>Carregando...</td>
                           </tr>
-                        ))}
+                        ) : erro ? (
+                          <tr>
+                            <td colSpan="5" style={{textAlign: 'center', color: 'red'}}>{erro}</td>
+                          </tr>
+                        ) : usuariosFiltrados.length === 0 ? (
+                          <tr>
+                            <td colSpan="5" style={{textAlign: 'center'}}>Nenhum usuário encontrado</td>
+                          </tr>
+                        ) : (
+                          usuariosFiltrados.map((usuario) => (
+                            <tr key={usuario.id}>
+                              <td>{usuario.nome}</td>
+                              <td>{usuario.cpf}</td>
+                              <td>{usuario.email}</td>
+                              <td>{usuario.status}</td>
+                              <td>-</td>
+                            </tr>
+                          ))
+                        )}
                     </tbody>
                   </table>
                 </>

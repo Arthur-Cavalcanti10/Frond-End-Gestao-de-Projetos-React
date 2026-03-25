@@ -1,39 +1,78 @@
 import '../CSS/Projeto.css'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { use, useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
 
 function Projeto() {
-  const alertProjeto = () => alert("Projeto salvo com sucesso!")
   const [show, setShow] = useState(false);
   const [nomeProjeto, setNomeProjeto] = useState("")
   const [descricaoProjeto, setDescricaoProjeto] = useState("")
-  const [dataCriacaoProjeto, setDataCriacaoProjeto] = useState("")
+  const [dataInicioProjeto, setDataInicioProjeto] = useState("")
   const [dataConclusaoProjeto, setDataConclusaoProjeto] = useState("")
   const [statusProjeto, setStatusProjeto] = useState("")
-  const [responsavelProjeto,setResponsavelProjeto] = useState("")
+  const [responsavelId, setResponsavelId] = useState("")
+  const [responsaveis, setResponsaveis] = useState([])
+  const [projetos,setProjetos] = useState([])
+  const [loading,setLoading] = useState(true)
+  const [erro,setErro]=useState(null)
   const handleClose = () => setShow(false);
-
   const handleShow = () => {
-    console.log("Modal abrindo...");
     setShow(true);
   }
 
-  const projetos = {
+  useEffect(() => {
+    buscarProjetos();
+    buscarResponsaveis();
+  }, []);
+
+  const buscarProjetos = () => {
+    setLoading(true);
+    axios.get("http://localhost:8080/projetos").then((response) =>{
+      setProjetos(response.data);
+      setLoading(false);
+    }).catch((error) => {
+      console.error("erro ao carregar projetos", error);
+      setErro("erro ao carregar projetos");
+      setLoading(false);
+    });
+  };
+
+  const buscarResponsaveis = () => {  //aqui nos vamos buscar os usuarios para colocarmos no responsavel
+    axios.get("http://localhost:8080/usuarios")
+      .then((response) => setResponsaveis(response.data))
+      .catch((error) => console.error("erro ao carregar responsáveis", error));
+  };
+
+  const novoProjeto = {
     nome : nomeProjeto,
     descricao : descricaoProjeto,
-    dataCriacao : dataCriacaoProjeto,
+    dataInicio : dataInicioProjeto,
     dataConclusao : dataConclusaoProjeto,
     status : statusProjeto,
-    responsavel : responsavelProjeto
+    responsavel : { id: responsavelId } //pega o id do responsavel
   }
 
   const salvarProjeto = () => {
-    console.log("Salvando projeto:", projetos);
-    console.log("Valor de nomeProjeto:", nomeProjeto);
-  }
+    axios.post("http://localhost:8080/projetos/cadastrar", novoProjeto)
+      .then((response) => {
+        alert("Projeto salvo com sucesso!");
+        handleClose();
+        setProjetos([...projetos, response.data]);
+        setNomeProjeto("");
+        setDescricaoProjeto("");
+        setDataInicioProjeto("");
+        setDataConclusaoProjeto("");
+        setStatusProjeto("");
+        setResponsavelId("");
+      })
+      .catch((error) => {
+        console.error("Erro ao salvar:", error);
+        alert("Erro ao salvar projeto");
+      });
+  };
 
   return (
     <div id="conteudo">
@@ -90,15 +129,15 @@ function Projeto() {
                     {/* Linha com duas colunas para datas */}
                     <div className="duas-colunas">
                       <div className="coluna">
-                        <label htmlFor="datacriacaoProjeto">
-                          Data de criação:<span className="required">*</span>
+                        <label htmlFor="dataInicioProjeto">
+                          Data de início:<span className="required">*</span>
                         </label>
                         <input
                           className="form-projetos-menor"
                           type="date"
-                          value={dataCriacaoProjeto} onChange={((e) => setDataCriacaoProjeto(e.target.value))}
-                          id="datacriacaoProjeto"
-                          name="datacriacaoprojeto"
+                          value={dataInicioProjeto} onChange={((e) => setDataInicioProjeto(e.target.value))}
+                          id="dataInicioProjeto"
+                          name="dataInicio"
                           required
                         />
                       </div>
@@ -131,23 +170,28 @@ function Projeto() {
                           required
                         >
                           <option value="">Selecione</option>
-                          <option value="pendente">Pendente</option>
-                          <option value="andamento">Em andamento</option>
-                          <option value="concluido">Concluído</option>
-                          <option value="entregue">Entregue</option>
+                          <option value="CANCELADO">cancelado</option>
+                          <option value="ATIVO">ativo</option>
+                          <option value="CONCLUITO">concluído</option>
+
                         </select>
                       </div>
                       <div className="coluna">
-                        <label htmlFor="responsavelProjeto">
+                        <label htmlFor="responsavelId">
                           Responsável:<span className="required">*</span>
                         </label>
-                        <input
+                        <select
                           className="form-projetos-menor"
-                          id="responsavelProjeto"
-                          value={responsavelProjeto} onChange={((e) => setResponsavelProjeto(e.target.value))}
-                          name="projeto"
+                          id="responsavelId"
+                          value={responsavelId} onChange={((e) => setResponsavelId(e.target.value))}
+                          name="responsavel"
                           required
-                        />
+                        >
+                          <option value="">Selecione</option>
+                          {responsaveis.map((user) => ( //pega os usuarios do array reponsaveis
+                            <option key={user.id} value={user.id}>{user.nome}</option>//coloca-os como opção
+                          ))}
+                        </select>
                       </div>
                     </div>
                   </form>
@@ -156,7 +200,7 @@ function Projeto() {
                   <Button variant="secondary" onClick={handleClose}>
                     Fechar
                   </Button> 
-                  <Button variant="primary" onClick={() => {handleClose(), alertProjeto(), salvarProjeto()} }>
+                  <Button variant="primary" onClick={salvarProjeto}>
                     Salvar
                   </Button>
                 </Modal.Footer>
@@ -214,7 +258,7 @@ function Projeto() {
         {/* Controles de paginação (inferior) */}
         <div className="paginacao">
           <div className="paginacao-info">
-            Mostrando <span id="registros-exibidos">0</span> de <span id="registros-totais">0</span> registros
+            Mostrando <span id="registros-exibidos">{projetos.length}</span> de <span id="registros-totais">{projetos.length}</span> registros
           </div>
           <div>
             <button id="btn-anterior" className="btn" disabled>
@@ -225,10 +269,19 @@ function Projeto() {
             </button>
           </div>
         </div>
+        {
+          projetos.map((projeto) =>(
+            <tr key={projeto.id}>
+             <td>{projeto.nome}</td>
+             <td>{projeto.descricao}</td>
+             <td>{projeto.status}</td>
+            </tr>
+          ) )
+        }
       </div>
     </div>
-  </div>
-  )
+    </div>
+  );
 }
 
 export default Projeto
