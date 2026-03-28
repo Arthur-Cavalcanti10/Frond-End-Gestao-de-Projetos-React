@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-
-function ListaUsuario() {
+                        //recebe o handle editar do usuario
+function ListaUsuario({ handleEditar, handleRefresh }) {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
@@ -18,11 +18,7 @@ function ListaUsuario() {
     return nomeMatch && cpfMatch && emailMatch && statusMatch;
   });
 
-  useEffect(() => {
-    buscarUsuarios();
-  }, []);
-
-  const buscarUsuarios = () => {
+  const buscarUsuarios = useCallback(() => {
     setLoading(true);
     axios.get("http://localhost:8080/usuarios")
       .then((response) => {
@@ -34,7 +30,11 @@ function ListaUsuario() {
         setErro("Erro ao carregar usuários");
         setLoading(false);
       });
-  };
+  }, []);
+
+  useEffect(() => {
+    buscarUsuarios();
+  }, [buscarUsuarios, handleRefresh]);
 
   const excluirUsuario = (id) => {
     if (window.confirm("Deseja realmente excluir este usuário?")) {
@@ -157,8 +157,8 @@ function ListaUsuario() {
                   <td>{usuario.cpf}</td>
                   <td>{usuario.email}</td>
                   <td>{usuario.status}</td>
-                  <td>
-                    <button className="btn btn-sm btn-primary">
+                  <td>                                                  {/* Quando clicado, o botão faz com que o handle editar receba o usuario e passe esse usuario para o usuario.jsx */}
+                    <button className="btn btn-sm btn-primary" onClick={() => handleEditar(usuario)}>
                       <i className="fas fa-edit"></i> Editar
                     </button>
                     <button className="btn btn-sm btn-danger" onClick={() => excluirUsuario(usuario.id)}>

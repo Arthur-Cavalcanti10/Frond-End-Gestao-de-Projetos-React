@@ -6,8 +6,27 @@ import "../CSS/Usuario.css"
 
 function Usuario() {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [usuarioParaEditar, setUsuarioParaEditar] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleClose = () => {
+    setShow(false);
+    setUsuarioParaEditar(null);
+  };
+
+  const handleShow = () => {
+    setUsuarioParaEditar(null);
+    setShow(true);
+  };
+  {/*aqui o handle editar recebe o usuario la da lista de usuario e o seta em setUsuarioParaEditar, e passa esse set para o cadastro usuario*/}
+  const handleEditar = (usuario) => {
+    setUsuarioParaEditar(usuario);
+    setShow(true);
+  };
+
+  const handleSalvar = () => {
+    setRefreshKey(prev => prev + 1);
+  };
 
   return (
     <div id="conteudo">
@@ -27,9 +46,18 @@ function Usuario() {
             </div>
           </div>
 
-          <CadastroUsuario show={show} handleClose={handleClose} />
+          <CadastroUsuario 
+            show={show} 
+            handleClose={handleClose} 
+            usuarioParaEditar={usuarioParaEditar}
+            handleSalvar={handleSalvar}
+          />
 
-          <ListaUsuario />
+          <ListaUsuario 
+            key={refreshKey}
+            handleEditar={handleEditar} 
+            handleRefresh={refreshKey}
+          />
         </div>
       </div>
     </div>
